@@ -2,10 +2,6 @@
   "retainLines": true,
   "compact": true,
   "comments": false,
-  "presets": [
-    "es2015",
-    "react"
-  ],
   "plugins": [
     "syntax-async-functions",
     "syntax-class-properties",
