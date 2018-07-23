@@ -119,6 +119,10 @@ export default class AnimateNumber extends Component {
 
   }
 
+  componentWillUnmount() {
+    clearTimeout(Timer);
+  }
+
   render() {
     return (
       <Text {...this.props}>
