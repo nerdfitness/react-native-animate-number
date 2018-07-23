@@ -120,7 +120,7 @@ export default class AnimateNumber extends Component {
   }
 
   componentWillUnmount() {
-    clearTimeout(Timer);
+    clearTimeout(this.timer);
   }
 
   render() {
@@ -134,7 +134,7 @@ export default class AnimateNumber extends Component {
 
     let progress = this.getAnimationProgress()
 
-    Timer.setTimeout(() => {
+    this.timer = Timer.setTimeout(() => {
 
       let value = (this.endWith - this.startFrom)/this.props.steps
       let sign = value >= 0 ? 1 : -1
