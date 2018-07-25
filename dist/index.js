@@ -104,7 +104,7 @@ export default class AnimateNumber extends Component {
     }
     // Check if iterate animation frame
     if(!this.dirty) {
-      this.props.onFinish(total, this.props.formatter(total));
+      this.props.onFinish();
       return
     }
     if (this.direction === true) {
