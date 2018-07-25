@@ -115,8 +115,9 @@ export default class AnimateNumber extends Component {
       if (parseFloat(this.state.value) >= parseFloat(this.props.value)) {
         this.startAnimate();
       }
+    } else {
+      clearTimeout(this.timer);
     }
-
   }
 
   componentWillUnmount() {
