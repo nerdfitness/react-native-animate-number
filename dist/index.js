@@ -23,7 +23,6 @@ export default class AnimateNumber extends Component {
     value : number,
     timing : 'linear' | 'easeOut' | 'easeIn' | () => number,
     formatter : () => {},
-    onStart : () => {},
     onProgress : () => {},
     onFinish : () => {}
   };
@@ -34,7 +33,6 @@ export default class AnimateNumber extends Component {
     steps : 45,
     value : 0,
     formatter : (val) => val,
-    onStart : () => {},
     onFinish : () => {}
   };
 
@@ -142,8 +140,6 @@ export default class AnimateNumber extends Component {
       if(this.props.countBy)
         value = sign*Math.abs(this.props.countBy)
       let total = parseFloat(this.state.value) + parseFloat(value)
-
-      this.props.onStart(total, this.props.formatter(total));
 
       this.direction = (value > 0)
       // animation terminate conditions
