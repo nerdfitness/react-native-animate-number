@@ -133,9 +133,6 @@ export default class AnimateNumber extends Component {
   }
 
   startAnimate() {
-
-    this.props.onStart(total, this.props.formatter(total))
-
     let progress = this.getAnimationProgress()
 
     this.timer = Timer.setTimeout(() => {
@@ -145,6 +142,8 @@ export default class AnimateNumber extends Component {
       if(this.props.countBy)
         value = sign*Math.abs(this.props.countBy)
       let total = parseFloat(this.state.value) + parseFloat(value)
+
+      this.props.onStart(total, this.props.formatter(total));
 
       this.direction = (value > 0)
       // animation terminate conditions
