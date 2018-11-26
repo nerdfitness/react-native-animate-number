@@ -104,6 +104,7 @@ export default class AnimateNumber extends Component {
     }
     // Check if iterate animation frame
     if(!this.dirty) {
+      this.props.onFinish();
       return
     }
     if (this.direction === true) {
@@ -116,7 +117,10 @@ export default class AnimateNumber extends Component {
         this.startAnimate();
       }
     }
+  }
 
+  componentWillUnmount() {
+    clearTimeout(this.timer);
   }
 
   render() {
@@ -127,10 +131,9 @@ export default class AnimateNumber extends Component {
   }
 
   startAnimate() {
-
     let progress = this.getAnimationProgress()
 
-    Timer.setTimeout(() => {
+    this.timer = Timer.setTimeout(() => {
 
       let value = (this.endWith - this.startFrom)/this.props.steps
       let sign = value >= 0 ? 1 : -1
@@ -143,7 +146,6 @@ export default class AnimateNumber extends Component {
       if (((this.direction) ^ (total <= this.endWith)) === 1) {
         this.dirty = false
         total = this.endWith
-        this.props.onFinish(total, this.props.formatter(total))
       }
 
       if(this.props.onProgress)
