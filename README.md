@@ -14,13 +14,13 @@ Customizable react native component for number animations.
 ## Installation
 
 ```shell
-$ npm install react-native-animate-number
+$ yarn add @bankifyio/react-native-animate-number
 ```
 
 ## Usage
 
 ```jsx
-import AnimateNumber from 'react-native-animate-number'
+import AnimateNumber from '@bankifyio/react-native-animate-number'
 ```
 
 ## Examples
@@ -110,6 +110,15 @@ Like the following example, it will tasks 150 seconds to finish the animation.
 
 ```
 
+### Customize content rendering
+
+By default this component renders a ```<Text>``` component. You can provide your
+own component by setting the prop `renderContent`.
+
+```jsx
+<AnimateNumber value={100} countBy={1} renderContent={(displayValue) => #Your own component} />
+```
+
 ## Props
 
 #### `value:number`(required)
@@ -135,6 +144,11 @@ Custom timing function or use a default timing function.
 #### `formatter: () => string`(optional)
 
 This prop accepts a `function` which returns a `string` as displayed value.
+
+#### `renderContent: (displayValue: number) => React.Node` (optional)
+
+This prop accepts a `function` with the displaying value as the parameter and
+expects a React Node as returned value
 
 #### `onProgress: () => void`(optional)
 
