@@ -7,7 +7,7 @@
 
 // @flow
 
-import React, { Component } from 'react';
+import * as React from 'react';
 import {
   Text,
   View
@@ -15,19 +15,25 @@ import {
 
 const HALF_RAD = Math.PI/2
 
-export default class AnimateNumber extends Component {
+type Props = {
+  countBy? : ?number,
+  interval? : ?number,
+  steps? : ?number,
+  value : number,
+  initial : ?number,
+  timing : 'linear' | 'easeOut' | 'easeIn' | () => number,
+  renderContent: (value: number) => React.Node
+  formatter : () => {},
+  onProgress : () => {},
+  onFinish : () => {}
+}
 
-  props : {
-    countBy? : ?number,
-    interval? : ?number,
-    steps? : ?number,
-    value : number,
-    initial : ?number,
-    timing : 'linear' | 'easeOut' | 'easeIn' | () => number,
-    formatter : () => {},
-    onProgress : () => {},
-    onFinish : () => {}
-  };
+type State = {
+    value? : ?number,
+    displayValue? : ?number
+}
+
+export default class AnimateNumber extends React.Component<Props, State> {
 
   static defaultProps = {
     interval : 14,
@@ -35,6 +41,9 @@ export default class AnimateNumber extends Component {
     steps : 45,
     value : 0,
     formatter : (val) => val,
+    renderContent: (value: number) => (<Text>
+      {value}
+    </Text>),
     onFinish : () => {}
   };
 
@@ -52,11 +61,6 @@ export default class AnimateNumber extends Component {
       return interval * Math.sin((HALF_RAD - HALF_RAD*progress)) * 5
     },
 
-  };
-
-  state : {
-    value? : ?number,
-    displayValue? : ?number
   };
 
   /**
@@ -133,10 +137,7 @@ export default class AnimateNumber extends Component {
   }
 
   render() {
-    return (
-      <Text {...this.props}>
-        {this.state.displayValue}
-      </Text>)
+    return this.props.renderContent(this.state.displayValue)
   }
 
   startAnimate() {
