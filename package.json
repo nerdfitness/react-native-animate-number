@@ -1,5 +1,5 @@
 {
-  "name": "@bankifyio/react-native-animate-number",
+  "name": "@bankify/react-native-animate-number",
   "version": "0.2.0",
   "description": "Animated number component",
   "main": "dist/index.js",
