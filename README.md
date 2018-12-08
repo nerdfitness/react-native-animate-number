@@ -14,13 +14,13 @@ Customizable react native component for number animations.
 ## Installation
 
 ```shell
-$ yarn add @bankifyio/react-native-animate-number
+$ yarn add @bankify/react-native-animate-number
 ```
 
 ## Usage
 
 ```jsx
-import AnimateNumber from '@bankifyio/react-native-animate-number'
+import AnimateNumber from '@bankify/react-native-animate-number'
 ```
 
 ## Examples
