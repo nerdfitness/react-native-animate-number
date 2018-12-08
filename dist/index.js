@@ -1,5 +1,7 @@
 /**
+ * Component that will animate number value changes
  * @author wkh237
+ * @maintainer Bankify Ltd
  * @version 0.1.1
  */
 
@@ -10,7 +12,6 @@ import {
   Text,
   View
 } from 'react-native';
-import Timer from 'react-timer-mixin';
 
 const HALF_RAD = Math.PI/2
 
@@ -73,6 +74,12 @@ export default class AnimateNumber extends Component {
    */
   endWith : number;
 
+  /**
+   * Mounted status of the component
+   * @type {boolean}
+   */
+  mounted: boolean;
+
   constructor(props:any) {
     super(props);
     // default values of state and non-state variables
@@ -89,17 +96,17 @@ export default class AnimateNumber extends Component {
     this.startFrom = this.state.value
     this.endWith = this.props.value
     this.dirty = true
+    this.mounted = true;
     this.startAnimate()
   }
 
-  componentWillUpdate(nextProps, nextState) {
-
+  componentDidUpdate(prevProps) {
     // check if start an animation
-    if(this.props.value !== nextProps.value) {
-      this.startFrom = this.props.value
-      this.endWith = nextProps.value
-      this.dirty = true
-      this.startAnimate()
+    if(this.props.value !== prevProps.value) {
+      this.startFrom = prevProps.value;
+      this.endWith = this.props.value;
+      this.dirty = true;
+      this.startAnimate();
       return
     }
     // Check if iterate animation frame
@@ -108,18 +115,19 @@ export default class AnimateNumber extends Component {
       return
     }
     if (this.direction === true) {
-      if(parseFloat(this.state.value) <= parseFloat(this.props.value)) {
+      if(parseFloat(this.state.value) <= parseFloat(prevProps.value)) {
         this.startAnimate();
       }
     }
     else if(this.direction === false){
-      if (parseFloat(this.state.value) >= parseFloat(this.props.value)) {
+      if (parseFloat(this.state.value) >= parseFloat(prevProps.value)) {
         this.startAnimate();
       }
     }
   }
 
   componentWillUnmount() {
+    this.mounted = false;
     clearTimeout(this.timer);
   }
 
@@ -133,28 +141,30 @@ export default class AnimateNumber extends Component {
   startAnimate() {
     let progress = this.getAnimationProgress()
 
-    this.timer = Timer.setTimeout(() => {
+    this.timer = setTimeout(() => {
 
-      let value = (this.endWith - this.startFrom)/this.props.steps
-      let sign = value >= 0 ? 1 : -1
-      if(this.props.countBy)
-        value = sign*Math.abs(this.props.countBy)
-      let total = parseFloat(this.state.value) + parseFloat(value)
-
-      this.direction = (value > 0)
-      // animation terminate conditions
-      if (((this.direction) ^ (total <= this.endWith)) === 1) {
-        this.dirty = false
-        total = this.endWith
+      if (this.mounted) {
+        let value = (this.endWith - this.startFrom)/this.props.steps
+        let sign = value >= 0 ? 1 : -1
+        if(this.props.countBy)
+          value = sign*Math.abs(this.props.countBy)
+        let total = parseFloat(this.state.value) + parseFloat(value)
+  
+        this.direction = (value > 0)
+        // animation terminate conditions
+        if (((this.direction) ^ (total <= this.endWith)) === 1) {
+          this.dirty = false
+          total = this.endWith
+        }
+  
+        if(this.props.onProgress)
+          this.props.onProgress(this.state.value, total)
+  
+        this.setState({
+          value : total,
+          displayValue : this.props.formatter(total)
+        })
       }
-
-      if(this.props.onProgress)
-        this.props.onProgress(this.state.value, total)
-
-      this.setState({
-        value : total,
-        displayValue : this.props.formatter(total)
-      })
 
     }, this.getTimingFunction(this.props.interval, progress))
 
