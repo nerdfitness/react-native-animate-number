@@ -22,7 +22,7 @@ type Props = {
   value : number,
   initial : ?number,
   timing : 'linear' | 'easeOut' | 'easeIn' | () => number,
-  renderContent: (value: number) => React.Node
+  renderContent: (value: number) => React.Node,
   formatter : () => {},
   onProgress : () => {},
   onFinish : () => {}
