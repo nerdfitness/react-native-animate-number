@@ -25,7 +25,8 @@ type Props = {
   renderContent: (value: number) => React.Node,
   formatter : () => {},
   onProgress : () => {},
-  onFinish : () => {}
+  onFinish : () => {},
+  startAt: number
 }
 
 type State = {
@@ -40,6 +41,7 @@ export default class AnimateNumber extends React.Component<Props, State> {
     timing : 'linear',
     steps : 45,
     value : 0,
+    startAt: 0,
     formatter : (val) => val,
     renderContent: (value: number) => (<Text>
       {value}
@@ -102,7 +104,12 @@ export default class AnimateNumber extends React.Component<Props, State> {
     this.endWith = this.props.value
     this.dirty = true
     this.mounted = true;
-    this.startAnimate()
+    setTimeout(
+      () => {
+        this.startAnimate();
+      },
+      this.props.startAt != null ? this.props.startAt : 0
+    );
   }
 
   componentDidUpdate(prevProps) {
